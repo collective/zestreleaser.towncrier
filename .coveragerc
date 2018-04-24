@@ -1,0 +1,5 @@
+[report]
+include =
+    src/zestreleaser/*
+omit =
+    */test*

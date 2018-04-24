@@ -1,0 +1,15 @@
+language: python
+sudo: false
+cache:
+  pip: true
+python:
+  - "2.7"
+  - "3.6"
+matrix:
+  fast_finish: true
+install:
+  - virtualenv -p `which python` .
+  - bin/pip install -r requirements.txt
+  - bin/python setup.py install
+script:
+  - bin/python setup.py test

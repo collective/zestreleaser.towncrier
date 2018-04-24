@@ -1,0 +1,4 @@
+graft src/zestreleaser
+graft docs
+include *.rst
+global-exclude *.pyc
