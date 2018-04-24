@@ -1,18 +1,10 @@
 # -*- coding: utf-8 -*-
 from zest.releaser import utils
-import logging
-import pkg_resources
-import toml
 
-# towncrier might become a conditional dependency of zest.releaser,
-# for example in the recommended list.
-# If we split this into a separate package, it should be a hard dependency.
-try:
-    pkg_resources.get_distribution('towncrier')
-except pkg_resources.DistributionNotFound:
-    HAS_TOWNCRIER = False
-else:
-    HAS_TOWNCRIER = True
+import logging
+import os
+import sys
+import toml
 
 
 logger = logging.getLogger(__name__)
@@ -42,8 +34,6 @@ def _is_towncrier_enabled():
     # or the other way around.
     # So could be tricky to know for sure that it is available.
     # Maybe call 'towncrier --help' and see if that gives an error.
-    if not HAS_TOWNCRIER:
-        return False
     # Read pyproject.toml with the toml package.
     if not _load_config():
         return False
@@ -84,7 +74,16 @@ def call_towncrier(data):
     # but that is not yet in a release of towncrier.
     logger.info(
         'Running command to update news: %s', utils.format_command(cmd))
-    print(utils.execute_command(cmd))
+    try:
+        print(utils.execute_command(cmd))
+    except OSError:
+        logger.error('Command failed.  Maybe towncrier is not found.')
+        releaser_dir = os.path.split(os.path.abspath(sys.argv[0]))[0]
+        towncrier_path = os.path.join(releaser_dir, 'towncrier')
+        cmd = [towncrier_path, '--version', data['new_version'], '--yes']
+        logger.info(
+            'Running command to update news: %s', utils.format_command(cmd))
+        print(utils.execute_command(cmd))
     # towncrier stages the changes with git,
     # which BTW means that our plugin requires git.
     logger.info('The staged git changes are:')
