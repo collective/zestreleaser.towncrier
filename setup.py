@@ -4,9 +4,21 @@
 from setuptools import find_packages
 from setuptools import setup
 
+LITERAL_TOML = """
+``pyproject.toml`` example
+--------------------------
+
+``towncrier`` needs a configured ``pyproject.toml`` file in the root of the package, next to the ``setup.py``.
+For reference, here is the literal ``pyproject.toml`` file from ``zestreleaser.towncrier``::
+
+"""
+with open('pyproject.toml') as toml:
+    for line in toml.readlines():
+        LITERAL_TOML += '  ' + line
 
 long_description = '\n\n'.join([
     open('README.rst').read(),
+    LITERAL_TOML,
     open('CONTRIBUTORS.rst').read(),
     open('CHANGES.rst').read(),
 ])
