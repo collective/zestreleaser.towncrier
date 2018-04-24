@@ -20,7 +20,14 @@ def _towncrier_executable():
     path = distutils.spawn.find_executable('towncrier')
     if path:
         return path
-    releaser_dir = os.path.split(os.path.abspath(sys.argv[0]))[0]
+    releaser_path = os.path.abspath(sys.argv[0])
+    releaser_dir = os.path.split(releaser_path)[0]
+    path = os.path.join(releaser_dir, 'towncrier')
+    if os.path.isfile(path):
+        return path
+    # It might be a symbolic link.  Follow it and try again.
+    releaser_path = os.path.realpath(releaser_path)
+    releaser_dir = os.path.split(releaser_path)[0]
     path = os.path.join(releaser_dir, 'towncrier')
     if os.path.isfile(path):
         return path
