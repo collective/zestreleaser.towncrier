@@ -1,4 +1,7 @@
 graft src/zestreleaser
-graft docs
 include *.rst
+include *.GPL
+include pyproject.toml
+include requirements.txt
 global-exclude *.pyc
+prune news
