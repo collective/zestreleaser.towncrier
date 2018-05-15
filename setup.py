@@ -29,9 +29,9 @@ setup(
     version='1.0.0.dev0',
     description="zest.releaser plugin to call towncrier",
     long_description=long_description,
-    # Get more from https://pypi.python.org/pypi?%3Aaction=list_classifiers
+    # Get more from https://pypi.org/pypi?%3Aaction=list_classifiers
     classifiers=[
-        "Development Status :: 3 - Alpha",
+        "Development Status :: 4 - Beta",
         "Environment :: Console",
         "Environment :: Plugins",
         "Intended Audience :: Developers",
