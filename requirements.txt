@@ -1,1 +1,1 @@
-git+git://github.com/zestsoftware/zest.releaser.git@456a27c3d6ae01a6d78cd4f666e4ca2da01fde29#egg=zest.releaser
+zest.releaser==6.15.0
