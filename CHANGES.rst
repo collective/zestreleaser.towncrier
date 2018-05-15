@@ -9,3 +9,12 @@ Changelog
              https://pip.pypa.io/en/latest/development/#adding-a-news-entry
 
 .. towncrier release notes start
+
+1.0.0b1 (2018-05-15)
+--------------------
+
+New features:
+
+
+- First release. [maurits] (`Issue #1
+  <https://github.com/collective/zestreleaser.towncrier/issues/1>`_)
