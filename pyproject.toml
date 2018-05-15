@@ -1,4 +1,9 @@
 [tool.towncrier]
+# The package name must be importable for now, even when not used.
+# See these pull requests:
+# https://github.com/hawkowl/towncrier/pull/107
+# https://github.com/hawkowl/towncrier/pull/112
+# Workaround can be: package = "towncrier"
 package = "zestreleaser.towncrier"
 issue_format = "`Issue #{issue} <https://github.com/collective/zestreleaser.towncrier/issues/{issue}>`_"
 filename = "CHANGES.rst"
