@@ -43,12 +43,6 @@ def _load_config():
         config = full_config['tool']['towncrier']
     except KeyError:
         return
-    # Currently we need 'package' in the config.
-    if 'package' not in config:
-        logger.error(
-            "The [tool.towncrier] section of %s "
-            "has no required 'package' key.", TOWNCRIER_CONFIG_FILE)
-        return
     return True
 
 
