@@ -15,11 +15,8 @@ TOWNCRIER_CONFIG_FILE = 'pyproject.toml'
 
 def _towncrier_executable():
     # Find the towncrier executable.
-    # First option is taken from
-    # https://stackoverflow.com/questions/377017
-    path = distutils.spawn.find_executable('towncrier')
-    if path:
-        return path
+    # First try to find towncrier in the same directory as full/prerelease.
+    # That is mostly likely to be the version that we want.
     releaser_path = os.path.abspath(sys.argv[0])
     releaser_dir = os.path.split(releaser_path)[0]
     path = os.path.join(releaser_dir, 'towncrier')
@@ -30,6 +27,11 @@ def _towncrier_executable():
     releaser_dir = os.path.split(releaser_path)[0]
     path = os.path.join(releaser_dir, 'towncrier')
     if os.path.isfile(path):
+        return path
+    # See if it is simply on the PATH.  Option taken from
+    # https://stackoverflow.com/questions/377017
+    path = distutils.spawn.find_executable('towncrier')
+    if path:
         return path
     return
 
