@@ -10,6 +10,25 @@ Changelog
 
 .. towncrier release notes start
 
+1.0.0b3 (2018-05-17)
+--------------------
+
+New features:
+
+
+- Require towncrier 18.5.0 so we don't need a package name in the config.
+  [maurits] (`Issue #3
+  <https://github.com/collective/zestreleaser.towncrier/issues/3>`_)
+
+
+Bug fixes:
+
+
+- First look for ``towncrier`` next to the ``full/prerelease`` script. Then
+  fall back to looking on the ``PATH``. [maurits] (`Issue #4
+  <https://github.com/collective/zestreleaser.towncrier/issues/4>`_)
+
+
 1.0.0b2 (2018-05-16)
 --------------------
 

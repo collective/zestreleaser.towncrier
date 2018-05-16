@@ -1,3 +1,0 @@
-First look for ``towncrier`` next to the ``full/prerelease`` script.
-Then fall back to looking on the ``PATH``.
-[maurits]
