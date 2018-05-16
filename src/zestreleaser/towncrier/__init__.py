@@ -35,6 +35,8 @@ def _towncrier_executable():
 
 
 def _load_config():
+    if not os.path.exists(TOWNCRIER_CONFIG_FILE):
+        return
     with open(TOWNCRIER_CONFIG_FILE, 'r') as conffile:
         full_config = toml.load(conffile)
     try:
