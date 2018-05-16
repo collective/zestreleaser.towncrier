@@ -10,6 +10,16 @@ Changelog
 
 .. towncrier release notes start
 
+1.0.0b2 (2018-05-16)
+--------------------
+
+Bug fixes:
+
+
+- Do not fail when pyproject.toml file is not there. [maurits] (`Issue #2
+  <https://github.com/collective/zestreleaser.towncrier/issues/2>`_)
+
+
 1.0.0b1 (2018-05-15)
 --------------------
 
