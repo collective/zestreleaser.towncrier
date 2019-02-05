@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from textwrap import dedent
 from zest.releaser import utils
 
 import distutils.spawn
@@ -36,7 +37,7 @@ def _towncrier_executable():
     return
 
 
-def _load_config():
+def _is_towncrier_wanted():
     if not os.path.exists(TOWNCRIER_CONFIG_FILE):
         return
     with open(TOWNCRIER_CONFIG_FILE, 'r') as conffile:
@@ -45,18 +46,6 @@ def _load_config():
         config = full_config['tool']['towncrier']
     except KeyError:
         return
-    return True
-
-
-def _is_towncrier_enabled():
-    # First check if the towncrier tool is available.
-    # towncrier might be on the PATH but not importable,
-    # or the other way around.
-    if not _towncrier_executable():
-        return False
-    # Read pyproject.toml with the toml package.
-    if not _load_config():
-        return False
     return True
 
 
@@ -73,14 +62,26 @@ def check_towncrier(data):
         data[TOWNCRIER_MARKER] = False
         return False
     # Check if towncrier should be applied.
-    result = _is_towncrier_enabled()
-    if result:
-        logger.debug('towncrier should be run.')
-        # zest.releaser should not update the history.
-        # towncrier will do that.
-        data['update_history'] = False
+    result = _is_towncrier_wanted()
+    if not result:
+        logger.debug('towncrier is not wanted.')
     else:
-        logger.debug('towncrier is not available or not configured.')
+        result = _towncrier_executable()
+        if result:
+            logger.debug('towncrier should be run.')
+            # zest.releaser should not update the history.
+            # towncrier will do that.
+            data['update_history'] = False
+        else:
+            print(dedent("""
+                According to the pyproject.toml file,
+                towncrier is used to update the changelog.
+                The problem is: we cannot find the towncrier executable.
+                Please make sure it is on your PATH."""))
+            if not utils.ask(
+                    'Do you want to continue anyway?', default=False):
+                sys.exit(1)
+
     data[TOWNCRIER_MARKER] = result
     return result
 
