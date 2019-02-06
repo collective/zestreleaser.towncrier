@@ -10,6 +10,16 @@ Changelog
 
 .. towncrier release notes start
 
+1.0.0 (2019-02-06)
+------------------
+
+New features:
+
+
+- Warn and ask when towncrier is wanted but not found. [maurits] (`Issue #7
+  <https://github.com/collective/zestreleaser.towncrier/issues/7>`_)
+
+
 1.0.0b3 (2018-05-17)
 --------------------
 
