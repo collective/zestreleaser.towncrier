@@ -53,7 +53,7 @@ def check_towncrier(data):
     if TOWNCRIER_MARKER in data:
         # We have already been called.
         return data[TOWNCRIER_MARKER]
-    if not data['update_history']:
+    if not data.get('update_history', True):
         # Someone has instructed zest.releaser to not update the history,
         # and it was not us, because our marker was not set,
         # so we should not update the history either.
