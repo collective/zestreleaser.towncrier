@@ -60,6 +60,11 @@ setup(
         'zest.releaser>=6.15.0',
     ],
     entry_points={
+        'zest.releaser.bumpversion.before': [
+            # If towncrier is configured for this project,
+            # the history should not be changed.
+            'check_towncrier = zestreleaser.towncrier:check_towncrier',
+        ],
         'zest.releaser.prereleaser.middle': [
             # Call towncrier to update the changelog with newsfragments:
             'call_towncrier = zestreleaser.towncrier:call_towncrier',

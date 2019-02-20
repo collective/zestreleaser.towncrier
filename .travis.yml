@@ -10,6 +10,6 @@ matrix:
 install:
   - virtualenv -p `which python` .
   - bin/pip install -r requirements.txt
-  - bin/python setup.py install
+  - bin/python setup.py develop
 script:
   - bin/python setup.py test
