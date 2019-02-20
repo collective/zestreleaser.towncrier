@@ -10,6 +10,16 @@ Changelog
 
 .. towncrier release notes start
 
+1.0.1 (2019-02-20)
+------------------
+
+Bug fixes:
+
+
+- Tell bumpversion to not update the history. [maurits] (`Issue #10
+  <https://github.com/collective/zestreleaser.towncrier/issues/10>`_)
+
+
 1.0.0 (2019-02-06)
 ------------------
 
