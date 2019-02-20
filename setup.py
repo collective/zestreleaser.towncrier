@@ -57,7 +57,7 @@ setup(
         'setuptools',
         'toml',
         'towncrier>=18.5.0',
-        'zest.releaser>=6.15.0',
+        'zest.releaser>=6.17.0',
     ],
     entry_points={
         'zest.releaser.bumpversion.before': [
