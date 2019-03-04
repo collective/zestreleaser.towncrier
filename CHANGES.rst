@@ -10,6 +10,15 @@ Changelog
 
 .. towncrier release notes start
 
+1.0.2 (2019-03-04)
+------------------
+
+Bug fixes:
+
+
+- Fixed finding towncrier when sys.argv is messed up.  [maurits] (`Issue #6 <https://github.com/collective/zestreleaser.towncrier/issues/6>`_)
+
+
 1.0.1 (2019-02-20)
 ------------------
 
