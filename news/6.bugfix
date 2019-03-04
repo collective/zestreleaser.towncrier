@@ -1,0 +1,1 @@
+Fixed finding towncrier when sys.argv is messed up.  [maurits]

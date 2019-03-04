@@ -18,7 +18,14 @@ def _towncrier_executable():
     # Find the towncrier executable.
     # First try to find towncrier in the same directory as full/prerelease.
     # That is mostly likely to be the version that we want.
-    releaser_path = os.path.abspath(sys.argv[0])
+    script = sys.argv[0]
+    if script == 'setup.py':
+        # Problem caused by 'pyroma' zest.releaser plugin.  See
+        # https://github.com/collective/zestreleaser.towncrier/issues/6
+        # Try the Python executable instead, which should work in case
+        # zest.releaser was installed in a virtualenv.
+        script = sys.executable
+    releaser_path = os.path.abspath(script)
     releaser_dir = os.path.split(releaser_path)[0]
     path = os.path.join(releaser_dir, 'towncrier')
     if os.path.isfile(path):
@@ -88,9 +95,10 @@ def check_towncrier(data):
 
 def call_towncrier(data):
     """Entrypoint: run towncrier when available and configured."""
-    if not check_towncrier(data):
+    # check_towncrier will either give a path to towncrier, or False.
+    path = check_towncrier(data)
+    if not path:
         return
-    path = _towncrier_executable()
     cmd = [path, '--version', data['new_version'], '--yes']
     # We would like to pass ['--package' 'package name'] as well,
     # but that is not yet in a release of towncrier.
