@@ -10,6 +10,24 @@ Changelog
 
 .. towncrier release notes start
 
+1.2.0 (2019-03-05)
+------------------
+
+New features:
+
+
+- Use 'python -m towncrier' when the script is not easily findable.
+  Still check the directory of the fullrelease script first.
+  No longer check the PATH.
+  [maurits] (`Issue #17 <https://github.com/collective/zestreleaser.towncrier/issues/17>`_)
+
+
+Bug fixes:
+
+
+- Do not run sanity checks or run draft during postrelease.  [maurits] (`Issue #16 <https://github.com/collective/zestreleaser.towncrier/issues/16>`_)
+
+
 1.1.0 (2019-03-05)
 ------------------
 
