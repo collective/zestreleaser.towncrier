@@ -10,6 +10,36 @@ Changelog
 
 .. towncrier release notes start
 
+1.0.4 (2019-03-05)
+------------------
+
+No significant changes.
+
+
+1.0.4 (2019-03-05)
+------------------
+
+Bug fixes:
+
+
+- Rerelease of 1.0.2 as 1.0.4.
+  The 1.0.3 contained new features, so should have been a 1.1.0 release.
+  [maurits]
+
+
+1.0.3 (2019-03-05)
+------------------
+
+New features:
+
+
+- Report on sanity of newsfragments: do they have the correct extensions?
+  Is at least one found?
+  Show dry-run (draft) of what towncrier would do.
+  [maurits] (`Issue #9 <https://github.com/collective/zestreleaser.towncrier/issues/9>`_)
+- Handle multiple news entries per issue/type pair.  [maurits] (`Issue #14 <https://github.com/collective/zestreleaser.towncrier/issues/14>`_)
+
+
 1.0.2 (2019-03-04)
 ------------------
 
