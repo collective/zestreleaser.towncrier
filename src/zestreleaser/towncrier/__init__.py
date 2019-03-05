@@ -134,7 +134,15 @@ def _report_newsfragments_sanity():
             sys.exit(1)
 
 
-def check_towncrier(data):
+def check_towncrier(data, check_sanity=True, do_draft=True):
+    """Check if towncrier can and should be run.
+
+    This is a zest.releaser entrypoint that is called during
+    prerelease, postrelease, and bumpversion.
+    Not in all cases are all checks useful, so there are some options.
+    For example, postrelease should not complain that there are no
+    news fragments.
+    """
     if TOWNCRIER_MARKER in data:
         # We have already been called.
         return data[TOWNCRIER_MARKER]
@@ -157,20 +165,22 @@ def check_towncrier(data):
             # zest.releaser should not update the history.
             # towncrier will do that.
             data['update_history'] = False
-            _report_newsfragments_sanity()
-            # Do a draft.
-            cmd = deepcopy(result)
-            cmd.extend([
-                '--draft',
-                '--version', data.get('new_version', 't.b.d.'),
-                '--yes',
-            ])
-            # We would like to pass ['--package' 'package name'] as well,
-            # but that is not yet in a release of towncrier.
-            logger.info(
-                'Doing dry-run of towncrier to see what would be changed: %s',
-                utils.format_command(cmd))
-            print(utils.execute_command(cmd))
+            if check_sanity:
+                _report_newsfragments_sanity()
+            if do_draft:
+                # Do a draft.
+                cmd = deepcopy(result)
+                cmd.extend([
+                    '--draft',
+                    '--version', data.get('new_version', 't.b.d.'),
+                    '--yes',
+                ])
+                # We would like to pass ['--package' 'package name'] as well,
+                # but that is not yet in a release of towncrier.
+                logger.info(
+                    'Doing dry-run of towncrier to see what would be changed: %s',
+                    utils.format_command(cmd))
+                print(utils.execute_command(cmd))
         else:
             print(dedent("""
                 According to the pyproject.toml file,
@@ -183,6 +193,11 @@ def check_towncrier(data):
 
     data[TOWNCRIER_MARKER] = result
     return result
+
+
+def post_check_towncrier(data):
+    """Entrypoint for postrelease."""
+    return check_towncrier(data, check_sanity=False, do_draft=False)
 
 
 def call_towncrier(data):

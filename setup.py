@@ -77,7 +77,7 @@ setup(
             # We only need to check if towncrier is available and
             # configured for this project.
             # Then the history should not be changed.
-            'check_towncrier = zestreleaser.towncrier:check_towncrier',
+            'check_towncrier = zestreleaser.towncrier:post_check_towncrier',
         ],
     },
 )
