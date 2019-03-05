@@ -96,11 +96,14 @@ def _report_newsfragments_sanity():
     for filename in os.listdir(directory):
         if filename.startswith('.'):
             continue
-        ext = os.path.splitext(filename)[-1]
-        ext = ext.strip('.')
-        if ext in types:
-            correct.append(filename)
-            continue
+        # filename can be like 42.bugfix or 42.bugfix.1
+        filename_parts = filename.split('.')
+        if 2 <= len(filename_parts) <= 3:
+            # In both cases, we take item 1.
+            ext = filename_parts[1]
+            if ext in types:
+                correct.append(filename)
+                continue
         problems.append(filename)
     print(
         'Found {0} towncrier newsfragments with recognized extension.'.format(
