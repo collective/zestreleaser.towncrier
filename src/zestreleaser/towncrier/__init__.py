@@ -56,6 +56,79 @@ def _is_towncrier_wanted():
     return True
 
 
+def _report_newsfragments_sanity():
+    """Report on the sanity of the newsfragments.
+
+    I hope this is not too specific to the pyproject.toml config
+    that I am used to.
+    """
+    with open(TOWNCRIER_CONFIG_FILE, 'r') as conffile:
+        full_config = toml.load(conffile)
+    config = full_config['tool']['towncrier']
+    if 'type' in config:
+        types = [entry.get('directory') for entry in config['type']]
+    else:
+        # towncrier._settings._default_types seems too private to depend on,
+        # so hardcopy it.
+        types = ['feature', 'bugfix', 'doc', 'removal', 'misc']
+    # Where are the snippets stored?
+    directory = config.get('directory')
+    if not directory:
+        # Look for "newsfragments" directory.
+        # We could look in the config file, but I wonder if that may change,
+        # so simply look for a certain directory name.
+        fragment_directory = 'newsfragments'
+        for dirpath, dirnames, filenames in os.walk('.'):
+            if dirpath.startswith(os.path.join('.', '.')):
+                # for example ./.git
+                continue
+            if fragment_directory in dirnames:
+                directory = os.path.join(dirpath, fragment_directory)
+                break
+        if not directory:
+            # Either towncrier won't work, or our logic is off.
+            print(
+                'WARNING: could not find newsfragments directory '
+                'for towncrier.')
+            return
+    problems = []
+    correct = []
+    for filename in os.listdir(directory):
+        if filename.startswith('.'):
+            continue
+        ext = os.path.splitext(filename)[-1]
+        ext = ext.strip('.')
+        if ext in types:
+            correct.append(filename)
+            continue
+        problems.append(filename)
+    print(
+        'Found {0} towncrier newsfragments with recognized extension.'.format(
+            len(correct)
+        )
+    )
+    if problems:
+        print(dedent("""
+            WARNING: According to the pyproject.toml file,
+            towncrier accepts news snippets with these extensions:
+            {0}
+            Problem: the {1} directory contains files with other extensions,
+            which will be ignored:
+            {2}
+            """.format(', '.join(types), directory, ', '.join(problems))))
+        if not utils.ask(
+                'Do you want to continue anyway?', default=False):
+            sys.exit(1)
+    if len(correct) == 0:
+        print(dedent("""
+            WARNING: No towncrier newsfragments found.
+            The changelog will not contain anything interesting.
+            """))
+        if not utils.ask(
+                'Do you want to continue anyway?', default=False):
+            sys.exit(1)
+
+
 def check_towncrier(data):
     if TOWNCRIER_MARKER in data:
         # We have already been called.
@@ -79,6 +152,19 @@ def check_towncrier(data):
             # zest.releaser should not update the history.
             # towncrier will do that.
             data['update_history'] = False
+            _report_newsfragments_sanity()
+            # Do a draft.
+            cmd = [
+                result, '--draft',
+                '--version', data.get('new_version', 't.b.d.'),
+                '--yes',
+            ]
+            # We would like to pass ['--package' 'package name'] as well,
+            # but that is not yet in a release of towncrier.
+            logger.info(
+                'Doing dry-run of towncrier to see what would be changed: %s',
+                utils.format_command(cmd))
+            print(utils.execute_command(cmd))
         else:
             print(dedent("""
                 According to the pyproject.toml file,
