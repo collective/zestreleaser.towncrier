@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
+from copy import deepcopy
 from textwrap import dedent
 from zest.releaser import utils
 
-import distutils.spawn
 import logging
 import os
 import sys
@@ -15,7 +15,11 @@ TOWNCRIER_CONFIG_FILE = 'pyproject.toml'
 
 
 def _towncrier_executable():
-    # Find the towncrier executable.
+    """Find the towncrier executable.
+
+    We return a list, with either [path/to/towncrier] or
+    [python, -m, towncrier]
+    """
     # First try to find towncrier in the same directory as full/prerelease.
     # That is mostly likely to be the version that we want.
     script = sys.argv[0]
@@ -29,19 +33,17 @@ def _towncrier_executable():
     releaser_dir = os.path.split(releaser_path)[0]
     path = os.path.join(releaser_dir, 'towncrier')
     if os.path.isfile(path):
-        return path
+        return [path]
     # It might be a symbolic link.  Follow it and try again.
     releaser_path = os.path.realpath(releaser_path)
     releaser_dir = os.path.split(releaser_path)[0]
     path = os.path.join(releaser_dir, 'towncrier')
     if os.path.isfile(path):
-        return path
-    # See if it is simply on the PATH.  Option taken from
-    # https://stackoverflow.com/questions/377017
-    path = distutils.spawn.find_executable('towncrier')
-    if path:
-        return path
-    return
+        return [path]
+    # towncrier is in our install_requires, so it is available as module,
+    # and since 18.6.0 it supports calling with 'python -m towncrier'.
+    # (Note: you will want 19.2.0+ on Python 2.7.)
+    return [sys.executable, '-m', 'towncrier']
 
 
 def _is_towncrier_wanted():
@@ -157,11 +159,12 @@ def check_towncrier(data):
             data['update_history'] = False
             _report_newsfragments_sanity()
             # Do a draft.
-            cmd = [
-                result, '--draft',
+            cmd = deepcopy(result)
+            cmd.extend([
+                '--draft',
                 '--version', data.get('new_version', 't.b.d.'),
                 '--yes',
-            ]
+            ])
             # We would like to pass ['--package' 'package name'] as well,
             # but that is not yet in a release of towncrier.
             logger.info(
@@ -188,7 +191,9 @@ def call_towncrier(data):
     path = check_towncrier(data)
     if not path:
         return
-    cmd = [path, '--version', data['new_version'], '--yes']
+    # path is a list
+    cmd = deepcopy(path)
+    cmd.extend(['--version', data['new_version'], '--yes'])
     # We would like to pass ['--package' 'package name'] as well,
     # but that is not yet in a release of towncrier.
     logger.info(
