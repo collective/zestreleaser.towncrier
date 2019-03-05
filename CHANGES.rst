@@ -10,6 +10,15 @@ Changelog
 
 .. towncrier release notes start
 
+1.1.0 (2019-03-05)
+------------------
+
+New features:
+
+
+- Rerelease 1.0.3 as 1.1.0, as it contains new features. (`Issue #9 <https://github.com/collective/zestreleaser.towncrier/issues/9>`_)
+
+
 1.0.3 (2019-03-05)
 ------------------
 
