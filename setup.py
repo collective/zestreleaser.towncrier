@@ -56,7 +56,7 @@ setup(
     install_requires=[
         'setuptools',
         'toml',
-        'towncrier>=18.5.0',
+        'towncrier>=18.6.0',
         'zest.releaser>=6.17.0',
     ],
     entry_points={
