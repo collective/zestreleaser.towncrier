@@ -171,6 +171,7 @@ def check_towncrier(data, check_sanity=True, do_draft=True):
                 # Do a draft.
                 cmd = deepcopy(result)
                 cmd.extend([
+                    'build',
                     '--draft',
                     '--version', data.get('new_version', 't.b.d.'),
                     '--yes',
@@ -208,7 +209,7 @@ def call_towncrier(data):
         return
     # path is a list
     cmd = deepcopy(path)
-    cmd.extend(['--version', data['new_version'], '--yes'])
+    cmd.extend(['build', '--version', data['new_version'], '--yes'])
     # We would like to pass ['--package' 'package name'] as well,
     # but that is not yet in a release of towncrier.
     logger.info(
