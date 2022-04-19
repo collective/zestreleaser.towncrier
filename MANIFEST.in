@@ -2,6 +2,5 @@ graft src/zestreleaser
 include *.rst
 include *.GPL
 include pyproject.toml
-include requirements.txt
 global-exclude *.pyc
 prune news

@@ -1,1 +1,0 @@
-zest.releaser==6.17.0
