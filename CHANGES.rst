@@ -10,6 +10,21 @@ Changelog
 
 .. towncrier release notes start
 
+1.3.0 (2022-04-19)
+------------------
+
+New features:
+
+
+- Use the ``build`` subcommand for ``towncrier`` to build the changelog.
+  Fixes compatibility with ``towncrier`` 21.9.0 or later.
+  Requires ``towncrier`` 19.9.0 or later.
+  [mcflugen] (`Issue #22 <https://github.com/collective/zestreleaser.towncrier/issues/22>`_)
+- For parsing, use ``tomli`` when on Python 3, ``toml`` on Python 2.
+  Same as ``towncrier`` did until recently.
+  [maurits] (`Issue #23 <https://github.com/collective/zestreleaser.towncrier/issues/23>`_)
+
+
 1.2.0 (2019-03-05)
 ------------------
 
