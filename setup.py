@@ -12,21 +12,23 @@ LITERAL_TOML = """
 For reference, here is the literal ``pyproject.toml`` file from ``zestreleaser.towncrier``::
 
 """
-with open('pyproject.toml') as toml:
+with open("pyproject.toml") as toml:
     for line in toml.readlines():
-        LITERAL_TOML += '  ' + line
+        LITERAL_TOML += "  " + line
 
-long_description = '\n\n'.join([
-    open('README.rst').read(),
-    LITERAL_TOML,
-    open('CONTRIBUTORS.rst').read(),
-    open('CHANGES.rst').read(),
-])
+long_description = "\n\n".join(
+    [
+        open("README.rst").read(),
+        LITERAL_TOML,
+        open("CONTRIBUTORS.rst").read(),
+        open("CHANGES.rst").read(),
+    ]
+)
 
 
 setup(
-    name='zestreleaser.towncrier',
-    version='1.3.0.dev0',
+    name="zestreleaser.towncrier",
+    version="1.3.0.dev0",
     description="zest.releaser plugin to call towncrier",
     long_description=long_description,
     # Get more from https://pypi.org/classifiers/
@@ -46,41 +48,41 @@ setup(
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
     ],
-    keywords='Python Plone',
-    author='Maurits van Rees',
-    author_email='m.van.rees@zestsoftware.nl',
-    url='https://pypi.org/project/zestreleaser.towncrier',
-    license='GPL',
-    packages=find_packages('src', exclude=['ez_setup']),
-    namespace_packages=['zestreleaser'],
-    package_dir={'': 'src'},
+    keywords="Python Plone",
+    author="Maurits van Rees",
+    author_email="m.van.rees@zestsoftware.nl",
+    url="https://pypi.org/project/zestreleaser.towncrier",
+    license="GPL",
+    packages=find_packages("src", exclude=["ez_setup"]),
+    namespace_packages=["zestreleaser"],
+    package_dir={"": "src"},
     include_package_data=True,
     zip_safe=False,
     install_requires=[
-        'setuptools',
-        'toml',
-        'towncrier>=19.9.0',
-        'zest.releaser>=6.17.0',
+        "setuptools",
+        "toml",
+        "towncrier>=19.9.0",
+        "zest.releaser>=6.17.0",
     ],
     entry_points={
-        'zest.releaser.bumpversion.before': [
+        "zest.releaser.bumpversion.before": [
             # If towncrier is configured for this project,
             # the history should not be changed.
-            'check_towncrier = zestreleaser.towncrier:check_towncrier',
+            "check_towncrier = zestreleaser.towncrier:check_towncrier",
         ],
-        'zest.releaser.prereleaser.middle': [
+        "zest.releaser.prereleaser.middle": [
             # Call towncrier to update the changelog with newsfragments:
-            'call_towncrier = zestreleaser.towncrier:call_towncrier',
+            "call_towncrier = zestreleaser.towncrier:call_towncrier",
         ],
-        'zest.releaser.prereleaser.before': [
+        "zest.releaser.prereleaser.before": [
             # Check if towncrier is available and configured:
-            'check_towncrier = zestreleaser.towncrier:check_towncrier',
+            "check_towncrier = zestreleaser.towncrier:check_towncrier",
         ],
-        'zest.releaser.postreleaser.before': [
+        "zest.releaser.postreleaser.before": [
             # We only need to check if towncrier is available and
             # configured for this project.
             # Then the history should not be changed.
-            'check_towncrier = zestreleaser.towncrier:post_check_towncrier',
+            "check_towncrier = zestreleaser.towncrier:post_check_towncrier",
         ],
     },
 )
