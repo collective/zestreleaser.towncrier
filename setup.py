@@ -26,7 +26,7 @@ long_description = '\n\n'.join([
 
 setup(
     name='zestreleaser.towncrier',
-    version='1.2.1.dev0',
+    version='1.3.0.dev0',
     description="zest.releaser plugin to call towncrier",
     long_description=long_description,
     # Get more from https://pypi.org/classifiers/
