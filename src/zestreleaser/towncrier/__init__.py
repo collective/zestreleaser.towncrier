@@ -10,10 +10,13 @@ from zest.releaser import utils
 
 try:
     # We prefer tomli, as pip and towncrier use it.
-    from tomli import load as _toml_load
+    import tomli
+
+    toml = None
 except ImportError:
     # But tomli is not available on Python 2.
-    from toml import load as _toml_load
+    tomli = None
+    import toml
 
 
 logger = logging.getLogger(__name__)
@@ -54,8 +57,11 @@ def _towncrier_executable():
 
 
 def _load_config():
-    with io.open(TOWNCRIER_CONFIG_FILE, "r", encoding="utf8") as conffile:
-        return _toml_load(conffile)
+    if tomli is not None:
+        with io.open(TOWNCRIER_CONFIG_FILE, "rb") as conffile:
+            return tomli.load(conffile)
+    with io.open(TOWNCRIER_CONFIG_FILE, "r", encoding="utf8", newline="") as conffile:
+        return toml.load(conffile)
 
 
 def _is_towncrier_wanted():
