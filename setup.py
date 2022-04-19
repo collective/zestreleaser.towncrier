@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 """Installer for the zestreleaser.towncrier package."""
 
-from setuptools import find_packages
-from setuptools import setup
+from setuptools import find_packages, setup
 
 LITERAL_TOML = """
 ``pyproject.toml`` example

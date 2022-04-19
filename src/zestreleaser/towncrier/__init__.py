@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
-from copy import deepcopy
-from textwrap import dedent
-from zest.releaser import utils
-
 import logging
 import os
 import sys
-import toml
+from copy import deepcopy
+from textwrap import dedent
 
+import toml
+from zest.releaser import utils
 
 logger = logging.getLogger(__name__)
 TOWNCRIER_MARKER = "_towncrier_applicable"

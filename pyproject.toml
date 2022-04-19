@@ -21,3 +21,6 @@ showcontent = true
 directory = "bugfix"
 name = "Bug fixes:"
 showcontent = true
+
+[tool.isort]
+profile = "black"
