@@ -1,12 +1,20 @@
 # -*- coding: utf-8 -*-
+import io
 import logging
 import os
 import sys
 from copy import deepcopy
 from textwrap import dedent
 
-import toml
 from zest.releaser import utils
+
+try:
+    # We prefer tomli, as pip and towncrier use it.
+    from tomli import load as _toml_load
+except ImportError:
+    # But tomli is not available on Python 2.
+    from toml import load as _toml_load
+
 
 logger = logging.getLogger(__name__)
 TOWNCRIER_MARKER = "_towncrier_applicable"
@@ -45,11 +53,15 @@ def _towncrier_executable():
     return [sys.executable, "-m", "towncrier"]
 
 
+def _load_config():
+    with io.open(TOWNCRIER_CONFIG_FILE, "r", encoding="utf8") as conffile:
+        return _toml_load(conffile)
+
+
 def _is_towncrier_wanted():
     if not os.path.exists(TOWNCRIER_CONFIG_FILE):
         return
-    with open(TOWNCRIER_CONFIG_FILE, "r") as conffile:
-        full_config = toml.load(conffile)
+    full_config = _load_config()
     try:
         config = full_config["tool"]["towncrier"]
     except KeyError:
@@ -63,8 +75,7 @@ def _report_newsfragments_sanity():
     I hope this is not too specific to the pyproject.toml config
     that I am used to.
     """
-    with open(TOWNCRIER_CONFIG_FILE, "r") as conffile:
-        full_config = toml.load(conffile)
+    full_config = _load_config()
     config = full_config["tool"]["towncrier"]
     if "type" in config:
         types = [entry.get("directory") for entry in config["type"]]
