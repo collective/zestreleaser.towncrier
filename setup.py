@@ -29,9 +29,9 @@ setup(
     version='1.2.1.dev0',
     description="zest.releaser plugin to call towncrier",
     long_description=long_description,
-    # Get more from https://pypi.org/pypi?%3Aaction=list_classifiers
+    # Get more from https://pypi.org/classifiers/
     classifiers=[
-        "Development Status :: 4 - Beta",
+        "Development Status :: 5 - Production/Stable",
         "Environment :: Console",
         "Environment :: Plugins",
         "Intended Audience :: Developers",
@@ -42,6 +42,9 @@ setup(
         "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
     ],
     keywords='Python Plone',
     author='Maurits van Rees',
@@ -56,7 +59,7 @@ setup(
     install_requires=[
         'setuptools',
         'toml',
-        'towncrier>=18.6.0',
+        'towncrier>=19.9.0',
         'zest.releaser>=6.17.0',
     ],
     entry_points={
