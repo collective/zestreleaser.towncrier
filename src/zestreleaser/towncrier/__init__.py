@@ -206,7 +206,15 @@ def check_towncrier(data, check_sanity=True, do_draft=True):
                     "Doing dry-run of towncrier to see what would be changed: %s",
                     utils.format_command(cmd),
                 )
-                print(utils.execute_command(cmd))
+                output = utils.execute_command(cmd)
+                print(output)
+                # remove the first two lines that are the release and the underline,
+                # at least on rst files, and remove the output generated
+                # by towncrier itself
+                cleaned_output = [
+                    x for x in output.split('\n')[2:] if not x.startswith('\x1b')
+                ]
+                data["history_this_release"] = '\n'.join(cleaned_output)
         else:
             print(
                 dedent(
