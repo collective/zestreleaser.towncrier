@@ -77,87 +77,6 @@ def _is_towncrier_wanted():
     return True
 
 
-def _report_newsfragments_sanity():
-    """Report on the sanity of the newsfragments.
-
-    I hope this is not too specific to the pyproject.toml config
-    that I am used to.
-    """
-    full_config = _load_config()
-    config = full_config["tool"]["towncrier"]
-    if "type" in config:
-        types = [entry.get("directory") for entry in config["type"]]
-    else:
-        # towncrier._settings._default_types seems too private to depend on,
-        # so hardcopy it.
-        types = ["feature", "bugfix", "doc", "removal", "misc"]
-    # Where are the snippets stored?
-    directory = config.get("directory")
-    if not directory:
-        # Look for "newsfragments" directory.
-        # We could look in the config file, but I wonder if that may change,
-        # so simply look for a certain directory name.
-        fragment_directory = "newsfragments"
-        for dirpath, dirnames, filenames in os.walk("."):
-            if dirpath.startswith(os.path.join(".", ".")):
-                # for example ./.git
-                continue
-            if fragment_directory in dirnames:
-                directory = os.path.join(dirpath, fragment_directory)
-                break
-        if not directory:
-            # Either towncrier won't work, or our logic is off.
-            print("WARNING: could not find newsfragments directory for towncrier.")
-            return
-    problems = []
-    correct = []
-    for filename in os.listdir(directory):
-        if filename.startswith("."):
-            continue
-        # filename can be like 42.bugfix or 42.bugfix.1
-        filename_parts = filename.split(".")
-        if 2 <= len(filename_parts) <= 3:
-            # In both cases, we take item 1.
-            ext = filename_parts[1]
-            if ext in types:
-                correct.append(filename)
-                continue
-        problems.append(filename)
-    print(
-        "Found {} towncrier newsfragments with recognized extension.".format(
-            len(correct)
-        )
-    )
-    if problems:
-        print(
-            dedent(
-                """
-            WARNING: According to the pyproject.toml file,
-            towncrier accepts news snippets with these extensions:
-            {}
-            Problem: the {} directory contains files with other extensions,
-            which will be ignored:
-            {}
-            """.format(
-                    ", ".join(types), directory, ", ".join(problems)
-                )
-            )
-        )
-        if not utils.ask("Do you want to continue anyway?", default=False):
-            sys.exit(1)
-    if len(correct) == 0:
-        print(
-            dedent(
-                """
-            WARNING: No towncrier newsfragments found.
-            The changelog will not contain anything interesting.
-            """
-            )
-        )
-        if not utils.ask("Do you want to continue anyway?", default=False):
-            sys.exit(1)
-
-
 def check_towncrier(data, check_sanity=True, do_draft=True):
     """Check if towncrier can and should be run.
 
@@ -189,7 +108,19 @@ def check_towncrier(data, check_sanity=True, do_draft=True):
             # towncrier will do that.
             data["update_history"] = False
             if check_sanity:
-                _report_newsfragments_sanity()
+                cmd = deepcopy(result)
+                cmd.extend(
+                    [
+                        "check",
+                    ]
+                )
+                logger.info(
+                    "Calling 'towncrier check': %s",
+                    utils.format_command(cmd),
+                )
+                # In case of problems, you will automatically get the question
+                # if you want to continue or not.
+                print(utils.execute_command(cmd))
             if do_draft:
                 # Do a draft.
                 cmd = deepcopy(result)

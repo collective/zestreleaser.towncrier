@@ -1,0 +1,1 @@
+Call ``towncrier check`` instead of doing those checks ourselves.  [maurits]
