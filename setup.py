@@ -1,6 +1,5 @@
 """Installer for the zestreleaser.towncrier package."""
 
-from setuptools import find_packages
 from setuptools import setup
 
 
@@ -53,14 +52,10 @@ setup(
     author_email="m.van.rees@zestsoftware.nl",
     url="https://pypi.org/project/zestreleaser.towncrier",
     license="GPL",
-    packages=find_packages("src", exclude=["ez_setup"]),
-    namespace_packages=["zestreleaser"],
-    package_dir={"": "src"},
     include_package_data=True,
     zip_safe=False,
     python_requires=">=3.10",
     install_requires=[
-        "setuptools",
         "toml; python_version < '3.6'",
         "tomli; python_version >= '3.6'",
         "towncrier>=19.9.0",
