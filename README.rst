@@ -9,8 +9,8 @@ This calls `towncrier <https://github.com/hawkowl/towncrier>`_ when releasing a 
 ``towncrier`` updates your history file (like ``CHANGES.rst``) based on news snippets.
 This is for example `used by pip <https://pip.pypa.io/en/latest/development/#adding-a-news-entry>`_.
 
-The plugin will call ``towncrier --version <package version> --yes``.
-You can get a preview of the result yourself by calling ``towncrier --version 1.2.3 --draft``.
+The plugin will call ``towncrier build --draft --version <package version> --yes``.
+You can get a preview of the result yourself by calling ``towncrier build --draft --version 1.2.3``.
 
 The ``towncrier`` command should be on your ``PATH``.
 The plugin can also find it when it is in the same directory as the ``fullrelease`` script (or ``prerelease/postrelease``).
