@@ -133,8 +133,6 @@ def check_towncrier(data, check_sanity=True, do_draft=True):
                         "--yes",
                     ]
                 )
-                # We would like to pass ['--package' 'package name'] as well,
-                # but that is not yet in a release of towncrier.
                 logger.info(
                     "Doing dry-run of towncrier to see what would be changed: %s",
                     utils.format_command(cmd),
