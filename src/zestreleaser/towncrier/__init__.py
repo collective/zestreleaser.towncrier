@@ -7,16 +7,11 @@ import os
 import sys
 
 
-try:
-    # We prefer tomli, as pip and towncrier use it.
-    import tomli
-
-    toml = None
-except ImportError:
-    # But tomli is not available on Python 2.
-    tomli = None
-    import toml
-
+# This is how towncrier imports tomli or tomllib.
+if sys.version_info < (3, 11):
+    import tomli as tomllib
+else:
+    import tomllib
 
 logger = logging.getLogger(__name__)
 TOWNCRIER_MARKER = "_towncrier_applicable"
@@ -56,11 +51,8 @@ def _towncrier_executable():
 
 
 def _load_config():
-    if tomli is not None:
-        with open(TOWNCRIER_CONFIG_FILE, "rb") as conffile:
-            return tomli.load(conffile)
-    with open(TOWNCRIER_CONFIG_FILE, encoding="utf8", newline="") as conffile:
-        return toml.load(conffile)
+    with open(TOWNCRIER_CONFIG_FILE, "rb") as conffile:
+        return tomllib.load(conffile)
 
 
 def _is_towncrier_wanted():

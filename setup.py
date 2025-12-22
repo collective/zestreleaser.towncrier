@@ -56,8 +56,7 @@ setup(
     zip_safe=False,
     python_requires=">=3.10",
     install_requires=[
-        "toml; python_version < '3.6'",
-        "tomli; python_version >= '3.6'",
+        "tomli; python_version<'3.11'",
         "towncrier>=19.9.0",
         "zest.releaser>=6.17.0",
     ],
