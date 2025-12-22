@@ -1,14 +1,16 @@
-# -*- coding: utf-8 -*-
 """Installer for the zestreleaser.towncrier package."""
 
-from setuptools import find_packages, setup
+from setuptools import setup
+
 
 LITERAL_TOML = """
 ``pyproject.toml`` example
 --------------------------
 
-``towncrier`` needs a configured ``pyproject.toml`` file in the root of the package, next to the ``setup.py``.
-For reference, here is the literal ``pyproject.toml`` file from ``zestreleaser.towncrier``::
+``towncrier`` needs a configured ``pyproject.toml`` file in the root of the
+package, next to the ``setup.py``.
+For reference, here is the literal ``pyproject.toml`` file from
+``zestreleaser.towncrier`` (not all of this has to do with towncrier)::
 
 """
 with open("pyproject.toml") as toml:
@@ -27,7 +29,7 @@ long_description = "\n\n".join(
 
 setup(
     name="zestreleaser.towncrier",
-    version="1.3.1.dev0",
+    version="2.0.0.dev0",
     description="zest.releaser plugin to call towncrier",
     long_description=long_description,
     # Get more from https://pypi.org/classifiers/
@@ -39,28 +41,22 @@ setup(
         "License :: OSI Approved :: GNU General Public License (GPL)",
         "Operating System :: OS Independent",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 2",
-        "Programming Language :: Python :: 2.7",
-        "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.6",
-        "Programming Language :: Python :: 3.7",
-        "Programming Language :: Python :: 3.8",
-        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
+        "Programming Language :: Python :: 3.13",
+        "Programming Language :: Python :: 3.14",
     ],
     keywords="Python Plone",
     author="Maurits van Rees",
     author_email="m.van.rees@zestsoftware.nl",
     url="https://pypi.org/project/zestreleaser.towncrier",
     license="GPL",
-    packages=find_packages("src", exclude=["ez_setup"]),
-    namespace_packages=["zestreleaser"],
-    package_dir={"": "src"},
     include_package_data=True,
     zip_safe=False,
+    python_requires=">=3.10",
     install_requires=[
-        "setuptools",
-        "toml; python_version < '3.6'",
-        "tomli; python_version >= '3.6'",
+        "tomli; python_version<'3.11'",
         "towncrier>=19.9.0",
         "zest.releaser>=6.17.0",
     ],

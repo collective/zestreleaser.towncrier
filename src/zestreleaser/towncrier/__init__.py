@@ -1,23 +1,17 @@
-# -*- coding: utf-8 -*-
-import io
+from copy import deepcopy
+from textwrap import dedent
+from zest.releaser import utils
+
 import logging
 import os
 import sys
-from copy import deepcopy
-from textwrap import dedent
 
-from zest.releaser import utils
 
-try:
-    # We prefer tomli, as pip and towncrier use it.
-    import tomli
-
-    toml = None
-except ImportError:
-    # But tomli is not available on Python 2.
-    tomli = None
-    import toml
-
+# This is how towncrier imports tomli or tomllib.
+if sys.version_info < (3, 11):
+    import tomli as tomllib
+else:
+    import tomllib
 
 logger = logging.getLogger(__name__)
 TOWNCRIER_MARKER = "_towncrier_applicable"
@@ -57,11 +51,8 @@ def _towncrier_executable():
 
 
 def _load_config():
-    if tomli is not None:
-        with io.open(TOWNCRIER_CONFIG_FILE, "rb") as conffile:
-            return tomli.load(conffile)
-    with io.open(TOWNCRIER_CONFIG_FILE, "r", encoding="utf8", newline="") as conffile:
-        return toml.load(conffile)
+    with open(TOWNCRIER_CONFIG_FILE, "rb") as conffile:
+        return tomllib.load(conffile)
 
 
 def _is_towncrier_wanted():
@@ -69,7 +60,7 @@ def _is_towncrier_wanted():
         return
     full_config = _load_config()
     try:
-        config = full_config["tool"]["towncrier"]
+        full_config["tool"]["towncrier"]
     except KeyError:
         return
     return True
@@ -105,7 +96,7 @@ def _report_newsfragments_sanity():
                 break
         if not directory:
             # Either towncrier won't work, or our logic is off.
-            print("WARNING: could not find newsfragments directory " "for towncrier.")
+            print("WARNING: could not find newsfragments directory for towncrier.")
             return
     problems = []
     correct = []
@@ -122,7 +113,7 @@ def _report_newsfragments_sanity():
                 continue
         problems.append(filename)
     print(
-        "Found {0} towncrier newsfragments with recognized extension.".format(
+        "Found {} towncrier newsfragments with recognized extension.".format(
             len(correct)
         )
     )
@@ -132,10 +123,10 @@ def _report_newsfragments_sanity():
                 """
             WARNING: According to the pyproject.toml file,
             towncrier accepts news snippets with these extensions:
-            {0}
-            Problem: the {1} directory contains files with other extensions,
+            {}
+            Problem: the {} directory contains files with other extensions,
             which will be ignored:
-            {2}
+            {}
             """.format(
                     ", ".join(types), directory, ", ".join(problems)
                 )

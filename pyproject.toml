@@ -1,3 +1,6 @@
+[build-system]
+requires = ["setuptools>=68.2,<81"]
+
 [tool.towncrier]
 issue_format = "`Issue #{issue} <https://github.com/collective/zestreleaser.towncrier/issues/{issue}>`_"
 filename = "CHANGES.rst"
@@ -23,4 +26,11 @@ name = "Bug fixes:"
 showcontent = true
 
 [tool.isort]
-profile = "black"
+profile = "plone"
+
+[tool.check-manifest]
+ignore = [
+    ".editorconfig",
+    ".flake8",
+    ".pre-commit-config.yaml",
+]

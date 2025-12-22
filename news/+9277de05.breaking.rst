@@ -1,0 +1,1 @@
+Require at least Python 3.10.  [maurits]
