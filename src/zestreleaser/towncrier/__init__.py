@@ -15,7 +15,10 @@ else:
 
 logger = logging.getLogger(__name__)
 TOWNCRIER_MARKER = "_towncrier_applicable"
-TOWNCRIER_CONFIG_FILE = "pyproject.toml"
+TOWNCRIER_CONFIG_FILES = [
+    "towncrier.toml",
+    "pyproject.toml",
+]
 
 
 def _towncrier_executable():
@@ -51,12 +54,20 @@ def _towncrier_executable():
 
 
 def _load_config():
-    with open(TOWNCRIER_CONFIG_FILE, "rb") as conffile:
-        return tomllib.load(conffile)
+    for filename in TOWNCRIER_CONFIG_FILES:
+        if not os.path.exists(filename):
+            continue
+        with open(filename, "rb") as conffile:
+            return tomllib.load(conffile)
 
 
 def _is_towncrier_wanted():
-    if not os.path.exists(TOWNCRIER_CONFIG_FILE):
+    found = False
+    for filename in TOWNCRIER_CONFIG_FILES:
+        if os.path.exists(filename):
+            found = True
+            break
+    if not found:
         return
     full_config = _load_config()
     try:
