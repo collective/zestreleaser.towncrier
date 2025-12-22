@@ -6,8 +6,10 @@ LITERAL_TOML = """
 ``pyproject.toml`` example
 --------------------------
 
-``towncrier`` needs a configured ``pyproject.toml`` file in the root of the package, next to the ``setup.py``.
-For reference, here is the literal ``pyproject.toml`` file from ``zestreleaser.towncrier``::
+``towncrier`` needs a configured ``pyproject.toml`` file in the root of the
+package, next to the ``setup.py``.
+For reference, here is the literal ``pyproject.toml`` file from
+``zestreleaser.towncrier``::
 
 """
 with open("pyproject.toml") as toml:

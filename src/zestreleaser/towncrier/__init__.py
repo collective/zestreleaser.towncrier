@@ -1,4 +1,3 @@
-import io
 import logging
 import os
 import sys
@@ -68,7 +67,7 @@ def _is_towncrier_wanted():
         return
     full_config = _load_config()
     try:
-        config = full_config["tool"]["towncrier"]
+        full_config["tool"]["towncrier"]
     except KeyError:
         return
     return True
@@ -104,7 +103,7 @@ def _report_newsfragments_sanity():
                 break
         if not directory:
             # Either towncrier won't work, or our logic is off.
-            print("WARNING: could not find newsfragments directory " "for towncrier.")
+            print("WARNING: could not find newsfragments directory for towncrier.")
             return
     problems = []
     correct = []
