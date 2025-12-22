@@ -1,10 +1,11 @@
+from copy import deepcopy
+from textwrap import dedent
+from zest.releaser import utils
+
 import logging
 import os
 import sys
-from copy import deepcopy
-from textwrap import dedent
 
-from zest.releaser import utils
 
 try:
     # We prefer tomli, as pip and towncrier use it.

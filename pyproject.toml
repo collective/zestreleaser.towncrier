@@ -23,4 +23,11 @@ name = "Bug fixes:"
 showcontent = true
 
 [tool.isort]
-profile = "black"
+profile = "plone"
+
+[tool.check-manifest]
+ignore = [
+    ".editorconfig",
+    ".flake8",
+    ".pre-commit-config.yaml",
+]
