@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import io
 import logging
 import os
@@ -58,9 +57,9 @@ def _towncrier_executable():
 
 def _load_config():
     if tomli is not None:
-        with io.open(TOWNCRIER_CONFIG_FILE, "rb") as conffile:
+        with open(TOWNCRIER_CONFIG_FILE, "rb") as conffile:
             return tomli.load(conffile)
-    with io.open(TOWNCRIER_CONFIG_FILE, "r", encoding="utf8", newline="") as conffile:
+    with open(TOWNCRIER_CONFIG_FILE, encoding="utf8", newline="") as conffile:
         return toml.load(conffile)
 
 
@@ -122,7 +121,7 @@ def _report_newsfragments_sanity():
                 continue
         problems.append(filename)
     print(
-        "Found {0} towncrier newsfragments with recognized extension.".format(
+        "Found {} towncrier newsfragments with recognized extension.".format(
             len(correct)
         )
     )
@@ -132,10 +131,10 @@ def _report_newsfragments_sanity():
                 """
             WARNING: According to the pyproject.toml file,
             towncrier accepts news snippets with these extensions:
-            {0}
-            Problem: the {1} directory contains files with other extensions,
+            {}
+            Problem: the {} directory contains files with other extensions,
             which will be ignored:
-            {2}
+            {}
             """.format(
                     ", ".join(types), directory, ", ".join(problems)
                 )
