@@ -130,7 +130,6 @@ def check_towncrier(data, check_sanity=True, do_draft=True):
                         "--draft",
                         "--version",
                         data.get("new_version", "t.b.d."),
-                        "--yes",
                     ]
                 )
                 logger.info(
