@@ -11,7 +11,7 @@ LITERAL_TOML = """
 ``towncrier`` needs a configured ``pyproject.toml`` file in the root of the
 package, next to the ``setup.py``.
 For reference, here is the literal ``pyproject.toml`` file from
-``zestreleaser.towncrier``::
+``zestreleaser.towncrier`` (not all of this has to do with towncrier)::
 
 """
 with open("pyproject.toml") as toml:
