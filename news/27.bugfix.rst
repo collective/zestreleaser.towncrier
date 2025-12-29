@@ -1,3 +1,0 @@
-Also look for ``towncrier.toml``, next to ``pyproject.toml``.
-``towncrier.toml`` is tried first.
-[maurits]

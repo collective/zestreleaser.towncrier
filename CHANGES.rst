@@ -10,6 +10,30 @@ Changelog
 
 .. towncrier release notes start
 
+2.0.0 (2025-12-29)
+------------------
+
+Breaking changes:
+
+
+- Require at least Python 3.10.  [maurits]
+- Use native (implicit) namespace.  [maurits]
+
+
+New features:
+
+
+- Call ``towncrier check`` instead of doing those checks ourselves.  [maurits] (`Issue #29 <https://github.com/collective/zestreleaser.towncrier/issues/29>`_)
+
+
+Bug fixes:
+
+
+- Also look for ``towncrier.toml``, next to ``pyproject.toml``.
+  ``towncrier.toml`` is tried first.
+  [maurits] (`Issue #27 <https://github.com/collective/zestreleaser.towncrier/issues/27>`_)
+
+
 1.3.0 (2022-04-19)
 ------------------
 
