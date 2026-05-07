@@ -5,6 +5,7 @@ from zest.releaser import utils
 import logging
 import os
 import sys
+import zest.releaser.choose
 
 
 # This is how towncrier imports tomli or tomllib.
@@ -109,11 +110,13 @@ def check_towncrier(data, check_sanity=True, do_draft=True):
             data["update_history"] = False
             if check_sanity:
                 cmd = deepcopy(result)
-                cmd.extend(
-                    [
-                        "check",
-                    ]
-                )
+                cmd.extend(["check"])
+                # By default `towncrier check` compares with upstream, for
+                # example `origin/main`.  We want the last tag instead.
+                vcs = zest.releaser.choose.version_control()
+                tag_found = utils.get_last_tag(vcs, allow_missing=True)
+                if tag_found:
+                    cmd.extend(["--compare-with", vcs.tag_url(tag_found)])
                 logger.info(
                     "Calling 'towncrier check': %s",
                     utils.format_command(cmd),
