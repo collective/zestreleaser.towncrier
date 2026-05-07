@@ -10,6 +10,15 @@ Changelog
 
 .. towncrier release notes start
 
+2.0.1 (2026-05-07)
+------------------
+
+Bug fixes:
+
+
+- When calling ``towncrier check``, compare it with the last tag.  [maurits] (`Issue #32 <https://github.com/collective/zestreleaser.towncrier/issues/32>`_)
+
+
 2.0.0 (2025-12-29)
 ------------------
 
