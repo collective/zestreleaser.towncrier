@@ -1,0 +1,1 @@
+When calling ``towncrier check``, compare it with the last tag.  [maurits]
